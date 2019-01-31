@@ -11,7 +11,7 @@
 
 ## 基本注解
 
-如前文所提到的，类型注解使用 `:TypeAnnotation` 的语法。类型声明空间中可用的任何内容都可以用作类型注解。
+如前文所提及，类型注解使用 `:TypeAnnotation` 语法。类型声明空间中可用的任何内容都可以用作类型注解。
 
 在下面这个例子中，使用了变量、函数参数以及函数返回值的类型注解：
 
@@ -24,7 +24,7 @@ function identity(num: number): number {
 
 ## 原始类型
 
-JavaScript 原始类型也同样适应于 TypeScript 的类型系统，因此 `string`、`number`、`boolean` 也可以被用作类型注解：
+JavaScript 原始类型也同样适应于 TypeScript 的类型系统，因此 `string`、`number`、`boolean` 也可以被用作类型注解：
 
 ```ts
 let num: number;
@@ -45,10 +45,10 @@ bool = 'false'; // Error
 
 ## 数组
 
-TypeScript 为数组提供了专用的类型语法，当你注解数组时，会变的容易。这个类型语法使用后缀 `[]`， 然后你可以根据需要补充任何有效的类型注解（如：`:boolean[]`）。它能让你安全的使用任何有关数组的操作，而且它也能防止一些类似于赋值错误类型给成员的行为。如下所示：
+TypeScript 为数组提供了专用的类型语法，因此你可以很轻易的注解数组。它使用后缀 `[]`， 接着你可以根据需要补充任何有效的类型注解（如：`:boolean[]`）。它能让你安全的使用任何有关数组的操作，而且它也能防止一些类似于赋值错误类型给成员的行为。如下所示：
 
 ```ts
-const boolArray: boolean[];
+let boolArray: boolean[];
 
 boolArray = [true, false];
 console.log(boolArray[0]); // true
@@ -64,7 +64,7 @@ boolArray = [true, 'false']; // Error
 
 ## 接口
 
-接口是 TypeScript 的一个核心知识，它合并众多类型声明至一个类型声明：
+接口是 TypeScript 的一个核心知识，它能合并众多类型声明至一个类型声明：
 
 ```ts
 interface Name {
@@ -79,18 +79,18 @@ name = {
 };
 
 name = {
-  // Errpr: 'Second is missing'
+  // Error: 'Second is missing'
   first: 'John'
 };
 
 name = {
-  // Errpr: 'Second is the wrong type'
+  // Error: 'Second is the wrong type'
   first: 'John',
   second: 1337
 };
 ```
 
-在这里，我们把类型注解：`first: string` + `second: string` 合并到了一个新的类型注解里 `Name`，这样能对每个成员进行强制的类型检查。接口在 TypeScript 拥有强大的力量，在稍后，我们将会用整个章节来阐述如何更好的使用它。
+在这里，我们把类型注解：`first: string` + `second: string` 合并到了一个新的类型注解里 `Name`，这样能强制对每个成员进行类型检查。接口在 TypeScript 拥有强大的力量，在稍后，我们将会用整个章节来阐述如何更好的使用它。
 
 ## 内联类型注解
 
@@ -108,12 +108,12 @@ name = {
 };
 
 name = {
-  // Errpr: 'Second is missing'
+  // Error: 'Second is missing'
   first: 'John'
 };
 
 name = {
-  // Errpr: 'Second is the wrong type'
+  // Error: 'Second is the wrong type'
   first: 'John',
   second: 1337
 };
@@ -142,14 +142,14 @@ power = num;
 num = power;
 ```
 
-当你从 JavaScript 迁移至 TypeScript 时，你将会经常性使用 `any`。你必须减少对它的依赖，因为你需要确保类型安全。当使用 `any` 时，你基本上是在告诉 TypeScript 编辑器不要进行任何的类型检查。
+当你从 JavaScript 迁移至 TypeScript 时，你将会经常性使用 `any`。但你必须减少对它的依赖，因为你需要确保类型安全。当使用 `any` 时，你基本上是在告诉 TypeScript 编辑器不要进行任何的类型检查。
 
 ### null 和 undefined
 
 在类型系统中，JavaScript 中的 null 和 undefined 字面量和其他被标注了 `any` 类型的变量一样，都能被赋值给任意类型的变量，如下例子所示：
 
 ```ts
-let num: numer;
+let num: number;
 let str: string;
 
 // 这些类型能被赋予
@@ -210,7 +210,7 @@ interface Array<T> {
 }
 ```
 
-这意味着，当你在数组上调用 `.reverse` 方法时，得会获得类型安全：
+这意味着，当你在数组上调用 `.reverse` 方法时，将会获得类型安全：
 
 ```ts
 let numArr = [1, 2];
@@ -266,7 +266,7 @@ const b = x.b;
 
 ## 元组类型
 
-JavaScript 并没有支持类似于元组的支持。开发者通常只能使用数组来表示元组，但是 TypeScript 类型系统支持它。使用 `:[typeofmember1, typeofmember2]` 能够为元祖添加类型注解，元祖可以包含任意数量的成员，以下例子演示了元组：
+JavaScript 并没有支持类似于元组的支持。开发者通常只能使用数组来表示元组，但是 TypeScript 类型系统支持它。使用 `:[typeofmember1, typeofmember2]` 能够为元组添加类型注解，元组可以包含任意数量的成员，以下例子演示了元组：
 
 ```ts
 let nameNumber: [string, number];
@@ -320,4 +320,4 @@ type Callback = (data: string) => void;
 
 ## 最后
 
-现在你已经能够为你的大部分 JavaScript 代码添加类型注解，接着，让我们深入了解 TypeScript 的类型系统把。
+现在你已经能够为你的大部分 JavaScript 代码添加类型注解，接着，让我们深入了解 TypeScript 的类型系统吧。

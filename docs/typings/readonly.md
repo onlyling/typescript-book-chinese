@@ -1,9 +1,9 @@
-# Readonly
+# readonly
 
-TypeScript 类型系统允许你在一个接口里使用 `readonly` 来标记属性。它能允许你以一种更实用的方式工作（不可预期的改变是很糟糕的）：
+TypeScript 类型系统允许你在一个接口里使用 `readonly` 来标记属性。它能让你以一种更安全的方式工作（不可预期的改变是很糟糕的）：
 
 ```ts
-function foo(config: { readonly bar: number; readonly bas: number }) {
+function foo(config: { readonly bar: number, readonly bas: number }) {
   // ..
 }
 
@@ -28,7 +28,7 @@ const foo: Foo = { bar: 123, bas: 456 };
 foo.bar = 456; // Error: foo.bar 为仅读属性
 ```
 
-你甚至能指定一个类的属性为只读，你可以在声明时或者构造函数中初始化它们，如下所示：
+你也能指定一个类的属性为只读，然后在声明时或者构造函数中初始化它们，如下所示：
 
 ```ts
 class Foo {
@@ -83,7 +83,7 @@ export class Something extends React.Component<Props, State> {
 }
 ```
 
-然而，你并没有必要这么做，`React` 的声明文件已经标记这些为 `readonly`（通过传入泛型参数至一个内部包装，来把没个属性标记为 `readonly`，如上例子所示），
+然而，你并没有必要这么做，`React` 的声明文件已经标记这些为 `readonly`（通过传入泛型参数至一个内部包装，来把每个属性标记为 `readonly`，如上例子所示），
 
 ```ts
 export class Something extends React.Component<{ foo: number }, { baz: number }> {
@@ -110,14 +110,12 @@ console.log(foo[0]); // ok（读取）
 foo[0] = 456; // Error: 属性只读
 ```
 
-如果你想以不变的方式使用原生的 JavaScript 数组，这是非常棒的。事实上，TypeScript 提供了 `ReadonlyArray<T>` 的接口，能让你非常简单的实现：
+如果你想以不变的方式使用原生 JavaScript 数组，可以使用 TypeScript 提供的 `ReadonlyArray<T>` 接口：
 
 ```ts
-const foo: ReadonlyArray<number> = [1, 2, 3];
+let foo: ReadonlyArray<number> = [1, 2, 3];
 console.log(foo[0]); // ok
-
 foo.push(4); // Error: ReadonlyArray 上不存在 `push`，因为他会改变数组
-
 foo = foo.concat(4); // ok, 创建了一个复制
 ```
 
@@ -147,7 +145,6 @@ person.fullName = 'Dear Reader'; // Error, fullName 只读
 
 - 用于变量；
 - 变量不能重新赋值给其他任何事物。
-
 
 `readonly`
 
@@ -180,7 +177,7 @@ iMutateFoo(foo);
 console.log(foo.bar); // 456
 ```
 
-基本的 `readonly` 能确保“我”不能修改属性，但是当你把这个属性交给其他并没有这种保证的使用者（允许出于类型兼容性的原因），他们能改变它。当然，如果 `iMutateFoo` 明确的表示，他们的参数不可修改，那么编译器会发出错误警告：
+`readonly` 能确保“我”不能修改属性，但是当你把这个属性交给其他并没有这种保证的使用者（允许出于类型兼容性的原因），他们能改变它。当然，如果 `iMutateFoo` 明确的表示，他们的参数不可修改，那么编译器会发出错误警告：
 
 ```ts
 interface Foo {

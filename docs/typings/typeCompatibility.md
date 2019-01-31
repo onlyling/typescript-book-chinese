@@ -1,6 +1,8 @@
 # 类型兼容性
 
-类型兼容性（正如我们所要讨论到的）用于确定一个类型是否能赋值给其他类型，如 `string` 类型与 `number` 类型不兼容：
+类型兼容性用于确定一个类型是否能赋值给其他类型。
+
+如 `string` 类型与 `number` 类型不兼容：
 
 ```ts
 let str: string = 'Hello';
@@ -12,7 +14,7 @@ num = str; // Error: 'string' 不能赋值给 'number'
 
 ## 安全性
 
-TypeScript 类型系统设计比较方便，它允许你有一些不正确的行为。例如：任何类型都能被赋值给 `any`，这意味着告诉编辑器你可以做任何你想做的事情：
+TypeScript 类型系统设计比较方便，它允许你有一些不正确的行为。例如：任何类型都能被赋值给 `any`，这意味着告诉编译器你可以做任何你想做的事情：
 
 ```ts
 const foo: any = 123;
@@ -38,7 +40,7 @@ class Point2D {
 let p: Point;
 
 // ok, 因为是结构化的类型
-p = new Point(1, 2);
+p = new Point2D(1, 2);
 ```
 
 这允许你动态创建对象（就好像你在 `vanilla JS` 中使用一样），并且它如果能被推断，该对象仍然具有安全性。
@@ -86,13 +88,13 @@ iTakePoint2D({ x: 0 }); // Error: 没有 'y'
 - 协变（Covariant）：只在同一个方向；
 - 逆变（Contravariant）：只在相反的方向；
 - 双向协变（Bivariant）：包括同一个方向和不同方向；
-- 不变（Invariant）：如果类型不完全相同，则他们是不兼容的。
+- 不变（Invariant）：如果类型不完全相同，则它们是不兼容的。
 
 ::: tip
-对于存在完全可变数据的健全的类型系统（如 JavaScript），`Invariant` 是一个唯一的有效可选属性，但是正如我们提到的，*便利性*迫使我们作出一些不是很安全的选择。
+对于存在完全可变数据的健全的类型系统（如 JavaScript），`Invariant` 是一个唯一的有效可选属性，但是如我们说讨论的，*便利性*迫使我们作出一些不是很安全的选择。
 :::
 
-关于协变和逆变的更多内容，请参考：[What are covariance and contravariance?](https://www.stephanboyer.com/post/132/what-are-covariance-and-contravariance)。
+关于协变和逆变的更多内容，请参考：[协变与逆变](/tips/covarianceAndContravariance.html)。
 
 ## 函数
 
@@ -191,9 +193,9 @@ addEventListener(EventType.Mouse, <(e: Event) => void>((e: MouseEvent) => consol
 addEventListener(EventType.Mouse, (e: number) => console.log(e));
 ```
 
-同样的，你也可以把 `Array<Child>` 赋值给 `Array<Base>` （协变），因为函数是兼容的。数组的斜变需要所有的函数 `Array<Child>` 都能赋值给 `Array<Base>`，例如 `push(t: Child)` 能被赋值给 `push(t: Base)`，这能可以通过函数参数双向协变实现。
+同样的，你也可以把 `Array<Child>` 赋值给 `Array<Base>` （协变），因为函数是兼容的。数组的协变需要所有的函数 `Array<Child>` 都能赋值给 `Array<Base>`，例如 `push(t: Child)` 能被赋值给 `push(t: Base)`，这都可以通过函数参数双向协变实现。
 
-这对于来自其他语言的人来说，可能会感到很困惑，等他们希望以下错误不会出现在 TypeScript 中：
+这对于来自其他语言的人来说，可能会感到很困惑，但他们希望以下错误不会出现在 TypeScript 中：
 
 ```ts
 interface Poin2D {
@@ -225,7 +227,7 @@ status = num;
 num = status;
 ```
 
-- 来自与不同枚举的枚举变量，被认为是不兼容的。这使得枚举名词可用，而不是结构上：
+- 来自于不同枚举的枚举变量，被认为是不兼容的：
 
 ```ts
 enum Status {
@@ -241,7 +243,7 @@ enum Color {
 let status = Status.Ready;
 let color = Color.Red;
 
-status = color;
+status = color; // Error
 ```
 
 ## 类
@@ -292,7 +294,7 @@ size = animal; // ERROR
 
 ## 泛型
 
-自从 TypeScript 有了一个结构化的类型系统，类型参数仅仅在被一个成员使用时，才会影响兼容性。如下例子中，`T` 对兼容性没有影响：
+TypeScript 类型系统基于变量的结构，仅当类型参数在被一个成员使用时，才会影响兼容性。如下例子中，`T` 对兼容性没有影响：
 
 ```ts
 interface Empty<T> {}
@@ -303,7 +305,7 @@ let y: Empty<string>;
 x = y; // ok
 ```
 
-然而，当 `T` 被使用，它将在基于他的实例化在兼容性中发挥中用：
+当 `T` 被成员使用时，它将在实例化泛型后影响兼容性：
 
 ```ts
 interface Empty<T> {
@@ -330,7 +332,7 @@ let reverse = function<U>(y: U): U {
 identity = reverse; // ok, 因为 `(x: any) => any` 匹配 `(y: any) => any`
 ```
 
-类中的泛型兼容性与前文所提到的一致：
+类中的泛型兼容性与前文所提及一致：
 
 ```ts
 class List<T> {

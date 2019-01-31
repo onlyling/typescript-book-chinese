@@ -1,8 +1,7 @@
 # Bind 是有害的
 
-::: TIP
+::: tip
 译者注：在这个 [PR](https://github.com/Microsoft/TypeScript/pull/27028?from=timeline&isappinstalled=0) 下，已经解决 `bind`、`call`、`apply` 类型正确推导的问题，预计在 3.2 版本中发布。
-
 :::
 
 这是在 `lib.d.ts` 中 `bind` 的定义：
@@ -37,7 +36,7 @@ curryOne(456); // ok
 curryOne('456'); // Error
 ```
 
-如果你想用一个柯里化的函数，你可以看看此章节：
+如果你想用一个柯里化的函数，你可以看看[此章节](./curry.md)：
 
 ## 类成员
 

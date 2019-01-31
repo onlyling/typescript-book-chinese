@@ -1,6 +1,6 @@
 # 单例模式
 
-传统的单例模式实际上被用来克服所有的代码必须写到 `class` 类中的事实。
+传统的单例模式可以用来解决所有代码必须写到 `class` 中的问题：
 
 ```ts
 class Singleton {
@@ -22,7 +22,7 @@ class Singleton {
 
 let someThing = new Singleton(); // Error: constructor of 'singleton' is private
 
-let instacne = Singleton.getInstance(); // do some width the instance
+let instacne = Singleton.getInstance(); // do some thing with the instance
 ```
 
 然而，如果你不想延迟初始化，你可以使用 `namespace` 替代：

@@ -1,8 +1,8 @@
 # 辨析联合类型
 
-如果你拥有一个[字面量成员](./literals.md)的类，那么你可以使用该类的属性来辨析联合类型。
+当类中含有[字面量成员](./literals.md)时，我们可以用该类的属性来辨析联合类型。
 
-做为一个例子，考虑 `Square` 和 `Rectangle` 的联合类型。在这里，我们有一个成员 `kind`，它存在于联合成员里，并且它是一个特殊的字面量类型。
+做为一个例子，考虑 `Square` 和 `Rectangle` 的联合类型 `Shape`。`Square` 和 `Rectangle`有共同成员 `kind`，因此 `kind` 存在于 `Shape` 中。
 
 ```ts
 interface Square {
@@ -28,7 +28,7 @@ function area(s: Shape) {
     // 所以你现在能安全使用它
     return s.size * s.size;
   } else {
-    // 没有 'square' 属性？因此 TypeScript 将会指出 s 是 Rectangle
+    // 不是一个 square ？因此 TypeScript 将会推算出 s 一定是 Rectangle
     return s.width * s.height;
   }
 }
@@ -36,7 +36,7 @@ function area(s: Shape) {
 
 ## 详细的检查
 
-通常，你可能会想确认联合类型的成员会有一些针对它们自己的代码（行动）。
+通常，联合类型的成员有一些自己的行为（代码）：
 
 ```ts
 interface Square {
@@ -129,7 +129,7 @@ function area(s: Shape) {
 
 ## strictNullChecks
 
-如果你使用 `strictNullChecks`，并且用它来做详细的检查，你应该返回这个 `_exhaustiveCheck` 变量（类型是 `never`），否则 TypeScript 可能会推断返回值为 `undefined`：
+如果你使用 `strictNullChecks` 选项来做详细的检查，你应该返回 `_exhaustiveCheck` 变量（类型是 `never`），否则 TypeScript 可能会推断返回值为 `undefined`：
 
 ```ts
 function area(s: Shape) {
